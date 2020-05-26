@@ -66,7 +66,7 @@ app.get("/:resource", async (req, res) => {
   if (perPage && page) {
     query.first = perPage;
     query.skip = page * perPage;
-  } else if (from && to) {
+  } else if (typeof from === "number" && typeof to === "number") {
     query.first = to - from;
     query.skip = from;
   }
@@ -76,9 +76,10 @@ app.get("/:resource", async (req, res) => {
     };
   }
   let filterObject;
+  let where = {};
+
   if (filter) {
     const filterObject = JSON.parse(filter);
-    let where = {};
 
     for (const key in filterObject) {
       if (filterObject.hasOwnProperty(key)) {
@@ -123,7 +124,7 @@ app.get("/:resource", async (req, res) => {
           where = {
             ...where,
             id: {
-              in: parseInt(value),
+              in: value,
             },
           };
         } else {
@@ -145,8 +146,8 @@ app.get("/:resource", async (req, res) => {
       basket: true,
     };
   }
-
-  const total = await prisma[resource].count();
+  console.log(query);
+  const total = await prisma[resource].count({ where });
   const data = await prisma[resource].findMany(query);
   // res.header("Access-Control-Allow-Origin", "*");
   // res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
