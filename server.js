@@ -38,10 +38,10 @@ app.get("/:resource", async (req, res) => {
   const { pagination, sort, filter, range } = queries;
 
   if (range) {
-    let rangeObject = JSON.parse(range);
+    let rangeArray = JSON.parse(range);
 
-    from = rangeObject[0];
-    to = rangeObject[1];
+    from = rangeArray[0];
+    to = rangeArray[1];
   }
 
   if (pagination) {
@@ -54,12 +54,9 @@ app.get("/:resource", async (req, res) => {
   }
 
   if (sort) {
-    if (sort.field) {
-      field = sort.field;
-    }
-    if (sort.order) {
-      order = sort.order;
-    }
+    let sortArray = JSON.parse(sort);
+    field = sortArray[0];
+    order = sortArray[1].toLowerCase();
   }
 
   let query = {};
@@ -87,27 +84,55 @@ app.get("/:resource", async (req, res) => {
         const thisField = getField(key);
 
         if (key.endsWith("_gte")) {
+          console.log(key);
           where = {
             ...where,
             [thisField]: {
-              gte: value,
+              gte: thisField === "date" ? new Date(value) : parseFloat(value),
             },
           };
         } else if (key === "q") {
-          where = {
-            ...where,
+          if (resource === "reviews") {
+            where = {
+              ...where,
+              comment: {
+                contains: value,
+              },
+            };
+          } else if (resource === "customers") {
+            where = {
+              ...where,
+              OR: [
+                {
+                  first_name: {
+                    contains: value,
+                  },
+                },
+                {
+                  last_name: {
+                    contains: value,
+                  },
+                },
+              ],
+            };
+          } else {
+            where = {
+              ...where,
 
-            // Todo: find a universal field name for search
-            description: {
-              contains: value,
-            },
-          };
+              // Todo: find a universal field name for search
+              description: {
+                contains: value,
+              },
+            };
+          }
           // getManyReference
         } else if (key.endsWith("_lte")) {
+          console.log(key);
+
           where = {
             ...where,
             [thisField]: {
-              lte: value,
+              lte: thisField === "date" ? new Date(value) : parseFloat(value),
             },
           };
           // getManyReference
