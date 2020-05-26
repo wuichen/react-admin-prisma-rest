@@ -190,9 +190,16 @@ app.get("/:resource", async (req, res) => {
 
 app.get("/:resource/:id", async (req, res) => {
   const { resource, id } = req.params;
-  const data = await prisma[resource].findOne({
-    where: { id: parseInt(id) },
-  });
+  let query = {};
+  query.where = { id: parseInt(id) };
+
+  if (resource === "commands") {
+    query.include = {
+      basket: true,
+    };
+  }
+
+  const data = await prisma[resource].findOne(query);
   res.json(data);
 });
 
