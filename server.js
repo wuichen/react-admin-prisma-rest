@@ -85,10 +85,15 @@ app.get("/:resource", async (req, res) => {
 
         if (key.endsWith("_gte")) {
           console.log(key);
+          // TODO: find better way to organize this
+          // first_seen is a datetime field in customers
+          // date is a datetime field in most other resources
+          const isDateField =
+            thisField === "date" || thisField === "first_seen";
           where = {
             ...where,
             [thisField]: {
-              gte: thisField === "date" ? new Date(value) : parseFloat(value),
+              gte: isDateField ? new Date(value) : parseFloat(value),
             },
           };
         } else if (key === "q") {
@@ -241,16 +246,21 @@ const generateInput = (body) => {
     if (body.hasOwnProperty(key)) {
       const value = body[key];
       const thisField = getField(key);
-      if (Array.isArray(value)) {
-        where = {
-          ...where,
+
+      // TODO: only dealing with array strings currently.
+      // not handling model object saves
+      if (
+        Array.isArray(value) &&
+        value.length > 0 &&
+        typeof value[0] === "string"
+      ) {
+        query = {
+          ...query,
           [key]: {
             set: value,
           },
         };
-      }
-
-      if (key.endsWith("_id")) {
+      } else if (key.endsWith("_id")) {
         query = {
           ...query,
           [thisField]: {
