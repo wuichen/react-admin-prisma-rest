@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("PRISMA_POSTGRES_URL")
+  url = "***"
 }
 
 generator client {
@@ -25,15 +25,15 @@ model Customers {
   groups          String[]
   nb_commands     Int?
   total_spent     Float?     @default(0)
-  reviews         Reviews[]
-  invoices        Invoices[]
-  commands        Commands[]
+  Review          Reviews[]
+  Invoice         Invoices[]
+  Command         Commands[]
 }
 
 model Categories {
-  id       Int        @id
-  name     String
-  products Products[]
+  id      Int        @id
+  name    String
+  Product Products[]
 }
 
 model Products {
@@ -48,8 +48,8 @@ model Products {
   image       String?
   description String?
   stock       Int?
-  review      Reviews[]
-  basket      Baskets[]
+  Review      Reviews[]
+  Basket      Baskets[]
 }
 
 model Baskets {
@@ -67,6 +67,7 @@ model Commands {
   date           DateTime?  @default(now())
   customer_id    Int?
   customer       Customers? @relation(fields: [customer_id], references: [id])
+  basket         Json?
   total_ex_taxes Float?
   delivery_fees  Float?
   tax_rate       Float?
@@ -74,9 +75,9 @@ model Commands {
   total          Float?
   status         String?
   returned       Boolean?
-  invoice        Invoices[]
-  review         Reviews[]
-  basket         Baskets[]
+  Invoice        Invoices[]
+  Review         Reviews[]
+  Basket         Baskets[]
 }
 
 model Invoices {

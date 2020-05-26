@@ -1,0 +1,113 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Customers",
+      "field": "reviews",
+      "type": "Reviews",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Customers",
+      "field": "invoices",
+      "type": "Invoices",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Customers",
+      "field": "commands",
+      "type": "Commands",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Customers",
+      "field": "Review"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Customers",
+      "field": "Invoice"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Customers",
+      "field": "Command"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Categories",
+      "field": "products",
+      "type": "Products",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Categories",
+      "field": "Product"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Products",
+      "field": "review",
+      "type": "Reviews",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Products",
+      "field": "basket",
+      "type": "Baskets",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Products",
+      "field": "Review"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Products",
+      "field": "Basket"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Commands",
+      "field": "invoice",
+      "type": "Invoices",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Commands",
+      "field": "review",
+      "type": "Reviews",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Commands",
+      "field": "Invoice"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Commands",
+      "field": "Review"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Commands",
+      "field": "Basket"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Commands",
+      "field": "basket",
+      "type": "Baskets",
+      "arity": "List"
+    }
+  ]
+}

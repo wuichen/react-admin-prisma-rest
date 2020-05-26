@@ -42,31 +42,6 @@
           "model": "Customers",
           "field": "id"
         },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Customers",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Customers",
-          "field": "id"
-        },
         "directive": "id"
       }
     },
@@ -96,70 +71,170 @@
       "model": "Customers",
       "field": "address",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "zipcode",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "city",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "avatar",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "birthday",
       "type": "DateTime",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "first_seen",
       "type": "DateTime",
-      "arity": "Required"
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "first_seen"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "first_seen"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "last_seen",
       "type": "DateTime",
-      "arity": "Required"
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "last_seen"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "last_seen"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "has_ordered",
       "type": "Boolean",
-      "arity": "Required"
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "has_ordered"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "has_ordered"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "false"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "latest_purchase",
-      "type": "String",
-      "arity": "Required"
+      "type": "DateTime",
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
-      "field": "has_newsetter",
+      "field": "has_newsletter",
       "type": "Boolean",
-      "arity": "Required"
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "has_newsletter"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "has_newsletter"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "false"
     },
     {
       "tag": "CreateField",
@@ -173,14 +248,39 @@
       "model": "Customers",
       "field": "nb_commands",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Customers",
       "field": "total_spent",
-      "type": "Int",
-      "arity": "Required"
+      "type": "Float",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "total_spent"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Customers",
+          "field": "total_spent"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "0"
     },
     {
       "tag": "CreateField",
@@ -222,31 +322,6 @@
           "model": "Categories",
           "field": "id"
         },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Categories",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Categories",
-          "field": "id"
-        },
         "directive": "id"
       }
     },
@@ -274,31 +349,6 @@
       "field": "id",
       "type": "Int",
       "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Products",
-          "field": "id"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Products",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
     },
     {
       "tag": "CreateDirective",
@@ -369,56 +419,56 @@
       "model": "Products",
       "field": "reference",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Products",
       "field": "width",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Products",
       "field": "height",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Products",
       "field": "price",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Products",
       "field": "thumbnail",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Products",
       "field": "image",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Products",
       "field": "description",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Products",
       "field": "stock",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -446,6 +496,31 @@
           "model": "Commands",
           "field": "id"
         },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Commands",
+      "field": "reference",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Commands",
+      "field": "date",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Commands",
+          "field": "date"
+        },
         "directive": "default"
       }
     },
@@ -456,51 +531,26 @@
         "path": {
           "tag": "Field",
           "model": "Commands",
-          "field": "id"
+          "field": "date"
         },
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Commands",
-          "field": "id"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "Commands",
-      "field": "reference",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Commands",
-      "field": "date",
-      "type": "DateTime",
-      "arity": "Required"
+      "value": "now()"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "customer_id",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "customer",
       "type": "Customers",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -546,56 +596,56 @@
       "model": "Commands",
       "field": "basket",
       "type": "Json",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "total_ex_taxes",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "delivery_fees",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "tax_rate",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "taxes",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "total",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "status",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Commands",
       "field": "returned",
       "type": "Boolean",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -630,6 +680,24 @@
           "model": "Invoices",
           "field": "id"
         },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Invoices",
+      "field": "date",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Invoices",
+          "field": "date"
+        },
         "directive": "default"
       }
     },
@@ -640,44 +708,26 @@
         "path": {
           "tag": "Field",
           "model": "Invoices",
-          "field": "id"
+          "field": "date"
         },
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Invoices",
-          "field": "id"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "Invoices",
-      "field": "date",
-      "type": "DateTime",
-      "arity": "Required"
+      "value": "now()"
     },
     {
       "tag": "CreateField",
       "model": "Invoices",
       "field": "command_id",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Invoices",
       "field": "command",
       "type": "Commands",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -723,14 +773,14 @@
       "model": "Invoices",
       "field": "customer_id",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Invoices",
       "field": "customer",
       "type": "Customers",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -776,35 +826,35 @@
       "model": "Invoices",
       "field": "total_ex_taxes",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Invoices",
       "field": "delivery_fees",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Invoices",
       "field": "tax_rate",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Invoices",
       "field": "taxes",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Invoices",
       "field": "total",
       "type": "Float",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateModel",
@@ -825,6 +875,24 @@
           "model": "Reviews",
           "field": "id"
         },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Reviews",
+      "field": "date",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Reviews",
+          "field": "date"
+        },
         "directive": "default"
       }
     },
@@ -835,51 +903,33 @@
         "path": {
           "tag": "Field",
           "model": "Reviews",
-          "field": "id"
+          "field": "date"
         },
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Reviews",
-          "field": "id"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "Reviews",
-      "field": "date",
-      "type": "DateTime",
-      "arity": "Required"
+      "value": "now()"
     },
     {
       "tag": "CreateField",
       "model": "Reviews",
       "field": "status",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Reviews",
       "field": "command_id",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Reviews",
       "field": "command",
       "type": "Commands",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -925,14 +975,14 @@
       "model": "Reviews",
       "field": "product_id",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Reviews",
       "field": "product",
       "type": "Products",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -978,14 +1028,14 @@
       "model": "Reviews",
       "field": "customer_id",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Reviews",
       "field": "customer",
       "type": "Customers",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
@@ -1031,14 +1081,14 @@
       "model": "Reviews",
       "field": "rating",
       "type": "Int",
-      "arity": "Required"
+      "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Reviews",
       "field": "comment",
       "type": "String",
-      "arity": "Required"
+      "arity": "Optional"
     }
   ]
 }

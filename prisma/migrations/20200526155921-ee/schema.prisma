@@ -8,7 +8,7 @@ generator client {
 }
 
 model Customers {
-  id              Int        @default(autoincrement()) @id
+  id              Int        @id
   first_name      String
   last_name       String
   email           String
@@ -20,24 +20,24 @@ model Customers {
   first_seen      DateTime?  @default(now())
   last_seen       DateTime?  @default(now())
   has_ordered     Boolean?   @default(false)
-  latest_purchase String?
-  has_newsetter   Boolean?   @default(false)
+  latest_purchase DateTime?
+  has_newsletter  Boolean?   @default(false)
   groups          String[]
   nb_commands     Int?
-  total_spent     Int?       @default(0)
+  total_spent     Float?     @default(0)
   Review          Reviews[]
   Invoice         Invoices[]
   Command         Commands[]
 }
 
 model Categories {
-  id      Int        @default(autoincrement()) @id
+  id      Int        @id
   name    String
   Product Products[]
 }
 
 model Products {
-  id          Int         @default(autoincrement()) @id
+  id          Int         @id
   category    Categories? @relation(fields: [category_id], references: [id])
   category_id Int?
   reference   String?
@@ -52,7 +52,7 @@ model Products {
 }
 
 model Commands {
-  id             Int        @default(autoincrement()) @id
+  id             Int        @id
   reference      String?
   date           DateTime?  @default(now())
   customer_id    Int?
@@ -70,7 +70,7 @@ model Commands {
 }
 
 model Invoices {
-  id             Int        @default(autoincrement()) @id
+  id             Int        @id
   date           DateTime?  @default(now())
   command_id     Int?
   command        Commands?  @relation(fields: [command_id], references: [id])
@@ -84,7 +84,7 @@ model Invoices {
 }
 
 model Reviews {
-  id          Int        @default(autoincrement()) @id
+  id          Int        @id
   date        DateTime?  @default(now())
   status      String?
   command_id  Int?

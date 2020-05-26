@@ -139,6 +139,13 @@ app.get("/:resource", async (req, res) => {
     }
   }
 
+  // HACK: include basket in retuning data for those entities
+  if (resource === "commands" || resource === "products") {
+    query.include = {
+      basket: true,
+    };
+  }
+
   const total = await prisma[resource].count();
   const data = await prisma[resource].findMany(query);
   // res.header("Access-Control-Allow-Origin", "*");
