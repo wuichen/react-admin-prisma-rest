@@ -86,10 +86,12 @@ app.get("/:resource", async (req, res) => {
         if (key.endsWith("_gte")) {
           console.log(key);
           // TODO: find better way to organize this
-          // first_seen is a datetime field in customers
+          // first_seen, last_seen is a datetime field in customers
           // date is a datetime field in most other resources
           const isDateField =
-            thisField === "date" || thisField === "first_seen";
+            thisField === "date" ||
+            thisField === "first_seen" ||
+            thisField === "last_seen";
           where = {
             ...where,
             [thisField]: {
@@ -120,7 +122,27 @@ app.get("/:resource", async (req, res) => {
                 },
               ],
             };
-          } else {
+          } else if (resource === "commands") {
+            where = {
+              ...where,
+              OR: [
+                {
+                  customer: {
+                    first_name: {
+                      contains: value,
+                    },
+                  },
+                },
+                {
+                  customer: {
+                    last_name: {
+                      contains: value,
+                    },
+                  },
+                },
+              ],
+            };
+          } else if (resource === "products") {
             where = {
               ...where,
 
@@ -156,6 +178,15 @@ app.get("/:resource", async (req, res) => {
             id: {
               in: value,
             },
+          };
+        } else if (resource === "customers" && key === "groups") {
+          // TODO: find a way to query from string array
+          console.log(value);
+          where = {
+            ...where,
+            // groups: {
+            //   in: [value],
+            // },
           };
         } else {
           where = {
@@ -268,6 +299,16 @@ const generateInput = (body) => {
               id: parseInt(value),
             },
           },
+        };
+      }
+      // Skipping model fields
+      else if (
+        Array.isArray(value) &&
+        value.length > 0 &&
+        typeof value[0] === "object"
+      ) {
+        query = {
+          ...query,
         };
       } else {
         query = {
