@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("PRISMA_POSTGRES_URL")
+  url = "***"
 }
 
 generator client {
@@ -41,10 +41,8 @@ model Contact {
 
 model Company {
   id          Int         @default(autoincrement()) @id
-  slug        String
   name        String
   description String
-  bannerImg   String?
   address     Address     @relation(fields: [addressId], references: [id])
   addressId   Int
   contact     Contact     @relation(fields: [contactId], references: [id])

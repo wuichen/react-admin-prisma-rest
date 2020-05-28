@@ -4,26 +4,7 @@ const prisma = new PrismaClient()
 const data = dataGenerator()
 const clonedData = JSON.parse(JSON.stringify(data))
 
-// resource: table name
-// comparisonField: the unique field(not id) that are going to be used to compare
-function findNewIdFromOldData(resource, comparisonField, element, idField) {
-  let fieldValue, newId
-  for (let j = 0; j < clonedData[resource].length; j++) {
-    const oldElement = clonedData[resource][j];
-    if (element[idField] === oldElement.id) {
-      fieldValue = oldElement[comparisonField]
-    }
-  }
-
-  for (let y = 0; y < data[resource].length; y++) {
-    const newElement = data[resource][y];
-    if (newElement[comparisonField] === fieldValue) {
-      newId = newElement.id
-    }
-  }
-  return newId
-}
-
+// TIPS: The order of data creation matters!
 async function seedData() {
   try {
     await prisma.connect()
@@ -42,20 +23,6 @@ async function seedData() {
         data.countries[index].newId = country.id
       }
     }
-    if (data.categories) {
-      for (let index = 0; index < data.categories.length; index++) {
-        const element = data.categories[index];
-        let oldId = element.id
-        delete element.id
-        const category = await prisma.categories.create({
-          data: {
-            ...element
-          }
-        })
-        data.categories[index].oldId = oldId
-        data.categories[index].newId = category.id
-      }
-    }
     if (data.customers) {
       for (let index = 0; index < data.customers.length; index++) {
         const element = data.customers[index];
@@ -65,6 +32,14 @@ async function seedData() {
         const customer = await prisma.customers.create({
           data: {
             ...element,
+            user: {
+              create: {
+                firstName: element.first_name,
+                lastName: element.last_name,
+                email: element.email,
+                password: 'test'
+              }
+            },
             groups: {
               set: element.groups
             }
@@ -74,21 +49,121 @@ async function seedData() {
         data.customers[index].newId = customer.id
       }
     }
+    if (data.platforms) {
+      for (let index = 0; index < data.platforms.length; index++) {
+        const element = data.platforms[index];
+        const countryId = element.countryId
+        const ownerId = element.ownerId
+        let oldId = element.id
+        delete element.id
+        delete element.countryId
+        delete element.ownerId
+        const platform = await prisma.platform.create({
+          data: {
+            ...element,
+            owner: {
+              connect: {
+                id: ownerId
+              }
+            },
+            country: {
+              connect: {
+                id: countryId
+              }
+            }
+          }
+        })
+
+        data.platforms[index].oldId = oldId
+        data.platforms[index].newId = platform.id
+      }
+    }
+    if (data.companies) {
+      for (let index = 0; index < data.companies.length; index++) {
+        const element = data.companies[index];
+        const platformId = element.platformId
+        const ownerId = element.ownerId
+        const address = element.address
+        const contact = element.contact
+        let oldId = element.id
+        delete element.id
+        delete element.ownerId
+        delete element.platformId
+        delete element.address
+        delete element.contact
+        const company = await prisma.company.create({
+          data: {
+            ...element,
+            address: {
+              create: {
+                type: address.type,
+                info: address.info,
+                name: address.name,
+              }
+            },
+            contact: {
+              create: {
+                type: contact.type,
+                number: contact.number
+              }
+            },
+            owner: {
+              connect: {
+                id: ownerId
+              }
+            },
+            platform: {
+              connect: {
+                id: platformId
+              }
+            }
+          }
+        })
+
+        data.companies[index].oldId = oldId
+        data.companies[index].newId = company.id
+      }
+    }
+    if (data.categories) {
+      for (let index = 0; index < data.categories.length; index++) {
+        const element = data.categories[index];
+        const platformId = element.platformId
+        let oldId = element.id
+        delete element.id
+        delete element.platformId
+        const category = await prisma.categories.create({
+          data: {
+            ...element,
+            platform: {
+              connect: {
+                id: platformId
+              }
+            }
+          }
+        })
+        data.categories[index].oldId = oldId
+        data.categories[index].newId = category.id
+      }
+    }
 
     if (data.products) {
       for (let index = 0; index < data.products.length; index++) {
         const element = data.products[index];
-
-        // const category_id = findNewIdFromOldData("categories", "name", element, "category_id")
-        console.log("dis", element, data.categories.find((category) => category.oldId === element.category_id))
         const category_id = data.categories.find((category) => category.oldId === element.category_id)?.newId
+        const companyId = data.companies.find((company) => company.oldId === element.companyId)?.newId
         let oldId = element.id
         delete element.id
         delete element.category_id
+        delete element.companyId
 
         const product = await prisma.products.create({
           data: {
             ...element,
+            company: {
+              connect: {
+                id: companyId
+              }
+            },
             category: {
               connect: {
                 id: category_id
