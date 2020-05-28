@@ -1,6 +1,15 @@
 import simpleRestProvider from "ra-data-simple-rest";
+import { fetchUtils, Admin, Resource } from "react-admin";
 
-const restProvider = simpleRestProvider("http://localhost:3000");
+const httpClient = (url, options = {}) => {
+  if (!options.headers) {
+    options.headers = new Headers({ Accept: "application/json" });
+  }
+  const token = localStorage.getItem("token");
+  options.headers.set("Authorization", `Bearer ${token}`);
+  return fetchUtils.fetchJson(url, options);
+};
+const restProvider = simpleRestProvider("http://localhost:3000", httpClient);
 
 const delayedDataProvider = new Proxy(restProvider, {
   get: (target, name, self) =>

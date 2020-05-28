@@ -5,6 +5,9 @@ const app = express();
 const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const jwt = require("jsonwebtoken");
+const jwtDecode = require("jwt-decode");
+
 app.use(bodyParser.json()); // for parsing application/json
 // app.use(
 //   cors({
@@ -17,7 +20,15 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use(express.static(path.join(__dirname, "build")));
-
+app.use(function (req, res, next) {
+  if (req.headers.authorization) {
+    const decoded = jwtDecode(
+      req.headers.authorization.replace("Bearer", "").trim()
+    );
+    req.userId = decoded.id;
+  }
+  next();
+});
 app.get("/ping", function (req, res) {
   return res.send("pong");
 });
@@ -27,6 +38,27 @@ const validUntil = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
 app.use(function timeLog(req, res, next) {
   console.log("Time: ", Date.now());
   next();
+});
+
+app.post("/login", async (req, res) => {
+  const {
+    body: { email, password },
+  } = req;
+  console.log(req);
+  const user = await prisma.user.findOne({
+    where: {
+      email,
+    },
+  });
+  if (user) {
+    const token = jwt.sign(user, "secret");
+    res.send({
+      token,
+      user,
+    });
+  } else {
+    res.send(404);
+  }
 });
 
 app.get("/:resource", async (req, res) => {
@@ -74,6 +106,15 @@ app.get("/:resource", async (req, res) => {
   }
   let filterObject;
   let where = {};
+
+  if (resource === "platform" || resource === "company") {
+    where = {
+      ...where,
+      owner: {
+        id: req.userId,
+      },
+    };
+  }
 
   if (filter) {
     const filterObject = JSON.parse(filter);

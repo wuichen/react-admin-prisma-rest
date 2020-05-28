@@ -1,7 +1,22 @@
 import { AuthProvider } from 'ra-core';
 
 const authProvider: AuthProvider = {
-    login: ({ username }) => {
+    login: async ({ username }) => {
+        const response = await fetch('/login', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: username,
+                password: ""
+            })
+        })
+        const json: any = await response.json()
+        console.log(json)
+        localStorage.setItem('token', json.token)
+        localStorage.setItem('user', JSON.stringify(json.user))
+
         localStorage.setItem('username', username);
         // accept all username/password combinations
         return Promise.resolve();
