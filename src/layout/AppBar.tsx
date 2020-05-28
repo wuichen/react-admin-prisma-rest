@@ -54,7 +54,7 @@ const CustomAppBar = (props: any) => {
         color="primary"
         onClick={() => {
           localStorage.removeItem("permissions");
-          window.location.reload();
+          window.location.replace("/");
         }}
       >
         Switch

@@ -67,7 +67,7 @@ const Dashboard: FC = () => {
       localStorage.setItem("permissions", JSON.stringify(decoded.permissions));
     }
     localStorage.setItem("user", JSON.stringify(json.user));
-    window.location.reload();
+    window.location.replace("/");
   };
 
   return (
