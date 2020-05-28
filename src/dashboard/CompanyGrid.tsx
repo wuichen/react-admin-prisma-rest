@@ -12,6 +12,7 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
+import jwtDecode from "jwt-decode";
 
 // import LinkToRelatedProducts from './LinkToRelatedProducts';
 
@@ -52,20 +53,7 @@ const CompanyGrid = (props) => {
               {/* <LinkToRelatedProducts record={data[id]} /> */}
               <Button
                 onClick={async () => {
-                  const response = await fetch("/loginCompany", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Bearer " + localStorage.getItem("token"),
-                    },
-                    body: JSON.stringify({
-                      companyId: company.id,
-                    }),
-                  });
-                  const json: any = await response.json();
-                  console.log(json);
-                  localStorage.setItem("token", json.token);
-                  localStorage.setItem("user", JSON.stringify(json.user));
+                  props.loginAdmin("/loginCompany", company);
                 }}
               >
                 Enter

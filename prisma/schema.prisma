@@ -143,8 +143,8 @@ model Customers {
   reviews         Reviews[]
   invoices        Invoices[]
   commands        Commands[]
-  company         Company?   @relation(fields: [companyId], references: [id])
-  companyId       Int?
+  company         Company    @relation(fields: [companyId], references: [id])
+  companyId       Int
   userId          Int
   user            User       @relation(fields: [userId], references: [id])
 }
@@ -153,8 +153,8 @@ model Categories {
   id         Int        @default(autoincrement()) @id
   name       String
   products   Products[]
-  platform   Platform?  @relation(fields: [platformId], references: [id])
-  platformId Int?
+  platform   Platform   @relation(fields: [platformId], references: [id])
+  platformId Int
 }
 
 model Products {
@@ -171,8 +171,8 @@ model Products {
   stock       Int?
   review      Reviews[]
   basket      Baskets[]
-  company     Company?    @relation(fields: [companyId], references: [id])
-  companyId   Int?
+  company     Company     @relation(fields: [companyId], references: [id])
+  companyId   Int
 }
 
 model Baskets {
@@ -188,8 +188,8 @@ model Commands {
   id             Int        @default(autoincrement()) @id
   reference      String?
   date           DateTime?  @default(now())
-  customer_id    Int?
-  customer       Customers? @relation(fields: [customer_id], references: [id])
+  customer_id    Int
+  customer       Customers  @relation(fields: [customer_id], references: [id])
   total_ex_taxes Float?
   delivery_fees  Float?
   tax_rate       Float?
@@ -200,24 +200,24 @@ model Commands {
   invoice        Invoices[]
   review         Reviews[]
   basket         Baskets[]
-  company        Company?   @relation(fields: [companyId], references: [id])
-  companyId      Int?
+  company        Company    @relation(fields: [companyId], references: [id])
+  companyId      Int
 }
 
 model Invoices {
-  id             Int        @default(autoincrement()) @id
-  date           DateTime?  @default(now())
-  command_id     Int?
-  command        Commands?  @relation(fields: [command_id], references: [id])
-  customer_id    Int?
-  customer       Customers? @relation(fields: [customer_id], references: [id])
+  id             Int       @default(autoincrement()) @id
+  date           DateTime? @default(now())
+  command_id     Int
+  command        Commands  @relation(fields: [command_id], references: [id])
+  customer_id    Int
+  customer       Customers @relation(fields: [customer_id], references: [id])
   total_ex_taxes Float?
   delivery_fees  Float?
   tax_rate       Float?
   taxes          Float?
   total          Float?
-  company        Company?   @relation(fields: [companyId], references: [id])
-  companyId      Int?
+  company        Company   @relation(fields: [companyId], references: [id])
+  companyId      Int
 }
 
 model Reviews {
@@ -232,6 +232,6 @@ model Reviews {
   customer    Customers? @relation(fields: [customer_id], references: [id])
   rating      Int?
   comment     String?
-  company     Company?   @relation(fields: [companyId], references: [id])
-  companyId   Int?
+  company     Company    @relation(fields: [companyId], references: [id])
+  companyId   Int
 }

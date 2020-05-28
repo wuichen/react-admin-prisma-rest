@@ -64,8 +64,7 @@ app.post("/loginCompany", async (req, res) => {
     const token = jwt.sign(
       {
         ...user,
-        role: staffs[0].role,
-        companyId: staffs[0].company.id,
+        permissions: { role: staffs[0].role, companyId: staffs[0].company.id },
       },
       "secret"
     );
@@ -102,7 +101,9 @@ app.post("/loginPlatform", async (req, res) => {
     const token = jwt.sign(
       {
         ...user,
-        platformId: selectedPlatform.id,
+        permissions: {
+          platformId: selectedPlatform.id,
+        },
       },
       "secret"
     );
@@ -182,6 +183,7 @@ app.get("/:resource", async (req, res) => {
   let filterObject;
   let where = {};
 
+  // TIPS: Middlewares
   if (resource === "platform" || resource === "company") {
     where = {
       ...where,
@@ -189,11 +191,17 @@ app.get("/:resource", async (req, res) => {
         id: req.user.id,
       },
     };
-  } else if (resource === "products") {
+  } else if (
+    resource === "products"
+    // ||
+    // resource === "commands" ||
+    // resource === "invoices" ||
+    // resource === "customers"
+  ) {
     where = {
       ...where,
       company: {
-        id: req.user.companyId,
+        id: req.user.permissions.companyId,
       },
     };
   }

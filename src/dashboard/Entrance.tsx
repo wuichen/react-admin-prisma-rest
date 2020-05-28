@@ -9,6 +9,7 @@ import { useVersion, useDataProvider, useQueryWithStore } from "react-admin";
 import { useMediaQuery, Theme } from "@material-ui/core";
 import CompanyGrid from "./CompanyGrid";
 import PlatformGrid from "./PlatformGrid";
+import jwtDecode from "jwt-decode";
 
 interface State {
   companies?: any;
@@ -38,12 +39,43 @@ const Dashboard: FC = () => {
     },
   });
 
+  const loginAdmin = async (url, entity) => {
+    let body = "";
+    if (entity === "platform") {
+      body = JSON.stringify({
+        platformId: entity.id,
+      });
+    } else {
+      body = JSON.stringify({
+        companyId: entity.id,
+      });
+    }
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body,
+    });
+    const json: any = await response.json();
+    localStorage.setItem("token", json.token);
+    const decoded = jwtDecode(json.token);
+
+    if (decoded && decoded.permissions) {
+      localStorage.setItem("permissions", JSON.stringify(decoded.permissions));
+    }
+    localStorage.setItem("user", JSON.stringify(json.user));
+    window.location.reload();
+  };
+
   return (
     <div>
       <h2>My Companies</h2>
-      <CompanyGrid companies={companyQuery} />
+      <CompanyGrid loginAdmin={loginAdmin} companies={companyQuery} />
       <h2>My Platforms</h2>
-      <PlatformGrid platforms={platformQuery} />
+      <PlatformGrid loginAdmin={loginAdmin} platforms={platformQuery} />
     </div>
   );
 };
