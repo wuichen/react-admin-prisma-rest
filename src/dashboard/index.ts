@@ -1,3 +1,4 @@
 import DashboardComponent from './Dashboard';
+import Entrance from './Entrance';
 
-export const Dashboard = DashboardComponent;
+export const Dashboard = Entrance;

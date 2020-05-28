@@ -101,6 +101,16 @@ async function seedData() {
                 name: address.name,
               }
             },
+            staffs: {
+              create: {
+                role: "owner",
+                user: {
+                  connect: {
+                    id: ownerId
+                  }
+                }
+              }
+            },
             contact: {
               create: {
                 type: contact.type,
