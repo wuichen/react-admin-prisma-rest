@@ -10,6 +10,7 @@ import {
   CardActions,
   Typography,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 
 // import LinkToRelatedProducts from './LinkToRelatedProducts';
@@ -49,6 +50,26 @@ const CompanyGrid = (props) => {
             </CardContent>
             <CardActions classes={{ spacing: classes.actionSpacer }}>
               {/* <LinkToRelatedProducts record={data[id]} /> */}
+              <Button
+                onClick={async () => {
+                  const response = await fetch("/loginCompany", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                    body: JSON.stringify({
+                      companyId: company.id,
+                    }),
+                  });
+                  const json: any = await response.json();
+                  console.log(json);
+                  localStorage.setItem("token", json.token);
+                  localStorage.setItem("user", JSON.stringify(json.user));
+                }}
+              >
+                Enter
+              </Button>
               <EditButton basePath="/categories" record={company} />
             </CardActions>
           </Card>

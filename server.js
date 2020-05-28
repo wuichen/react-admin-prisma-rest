@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
     const decoded = jwtDecode(
       req.headers.authorization.replace("Bearer", "").trim()
     );
-    req.userId = decoded.id;
+    req.user = decoded;
   }
   next();
 });
@@ -38,6 +38,81 @@ const validUntil = new Date(Date.parse(new Date()) + 12 * 24 * 60 * 60 * 1000);
 app.use(function timeLog(req, res, next) {
   console.log("Time: ", Date.now());
   next();
+});
+
+app.post("/loginCompany", async (req, res) => {
+  const {
+    body: { companyId },
+    user,
+  } = req;
+
+  const staffs = await prisma.staff.findMany({
+    where: {
+      company: {
+        id: companyId,
+      },
+      user: {
+        id: user.id,
+      },
+    },
+    include: {
+      company: true,
+      user: true,
+    },
+  });
+  if (staffs && staffs.length && staffs.length > 0) {
+    const token = jwt.sign(
+      {
+        ...user,
+        role: staffs[0].role,
+        companyId: staffs[0].company.id,
+      },
+      "secret"
+    );
+    res.send({
+      token,
+      user,
+    });
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+app.post("/loginPlatform", async (req, res) => {
+  const {
+    body: { platformId },
+    user,
+  } = req;
+  console.log("user!!!", user);
+  const loginUser = await prisma.user.findOne({
+    where: {
+      id: user.id,
+    },
+    include: {
+      platforms: true,
+    },
+  });
+  console.log("loginuser!!!", loginUser);
+
+  const platforms = loginUser.platforms;
+  const selectedPlatform = platforms.find(
+    (platform) => platformId === platform.id
+  );
+  if (selectedPlatform) {
+    const token = jwt.sign(
+      {
+        ...user,
+        platformId: selectedPlatform.id,
+      },
+      "secret"
+    );
+    res.send({
+      token,
+      user,
+    });
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 app.post("/login", async (req, res) => {
@@ -57,7 +132,7 @@ app.post("/login", async (req, res) => {
       user,
     });
   } else {
-    res.send(404);
+    res.sendStatus(404);
   }
 });
 
@@ -111,7 +186,14 @@ app.get("/:resource", async (req, res) => {
     where = {
       ...where,
       owner: {
-        id: req.userId,
+        id: req.user.id,
+      },
+    };
+  } else if (resource === "products") {
+    where = {
+      ...where,
+      company: {
+        id: req.user.companyId,
       },
     };
   }

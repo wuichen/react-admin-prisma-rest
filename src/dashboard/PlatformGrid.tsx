@@ -10,6 +10,7 @@ import {
   CardActions,
   Typography,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 
 // import LinkToRelatedProducts from './LinkToRelatedProducts';
@@ -48,6 +49,26 @@ const PlatformGrid = (props) => {
               </Typography>
             </CardContent>
             <CardActions classes={{ spacing: classes.actionSpacer }}>
+              <Button
+                onClick={async () => {
+                  const response = await fetch("/loginPlatform", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "Bearer " + localStorage.getItem("token"),
+                    },
+                    body: JSON.stringify({
+                      platformId: platform.id,
+                    }),
+                  });
+                  const json: any = await response.json();
+                  console.log(json);
+                  localStorage.setItem("token", json.token);
+                  localStorage.setItem("user", JSON.stringify(json.user));
+                }}
+              >
+                Enter
+              </Button>
               {/* <LinkToRelatedProducts record={data[id]} /> */}
               <EditButton basePath="/categories" record={platform} />
             </CardActions>
